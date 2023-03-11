@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade" :id="modalId" tabindex="-1" aria-labelledby="modalClientInfoLabel" aria-hidden="true">
+  <div class="modal fade" id="modalClient" tabindex="-1" aria-labelledby="modalClientInfoLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content modal-custom">
         <div class="modal-header">
@@ -67,11 +67,6 @@
   import { mapState, mapMutations } from 'vuex';
 
   export default {
-    props: {
-      title: String,
-      modalId: String,
-      clientId: String,
-    },
     components: {
       ModalContactsList,
       ButtonAddNewContact,
@@ -90,6 +85,12 @@
         // incomingSurname: 'clientInfo.surname',
         // incomingName: 'clientInfo.name',
         clientContacts: 'clientContacts',
+
+        // new for modal
+        title: 'title',
+        modalType: 'modalType',
+        clientId: 'clientId',
+
       }),
     },
     methods: {
@@ -97,18 +98,14 @@
         setClientContacts: 'setClientContacts',
       }),
       isShow() {
-        return this.modalId === 'modalClientInfo';
+        return this.modalType === 'modalClientInfo';
       },
     },
     mounted() {
       this.$nextTick(function() {
         store.commit(
-          'setModalNewClient',
-          new Modal('#modalClientInfo', {})
-        );
-        store.commit(
-          'setModalNewClient',
-          new Modal('#modalNewClient', {})
+          'setModalClient',
+          new Modal('#modalClient', {})
         );
       });
     }, // mounted

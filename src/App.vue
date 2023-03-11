@@ -1,5 +1,7 @@
 <template>
 
+  <ModalClient/>
+
   <SiteHeader/>
 
   <main>
@@ -24,12 +26,14 @@
   import SiteFooter from './components/site/SiteFooter.vue';
   import "bootstrap/dist/css/bootstrap.min.css";
   import "bootstrap/dist/js/bootstrap.min.js";
+  import ModalClient from './components/modals/ModalClient.vue';
 
   export default {
     components: {
-      SiteHeader,
-      TableClients,
-      SiteFooter,
-    },
+    SiteHeader,
+    TableClients,
+    SiteFooter,
+    ModalClient,
+},
   };
 </script>

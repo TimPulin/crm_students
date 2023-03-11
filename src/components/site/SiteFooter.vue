@@ -6,8 +6,7 @@
         :classArr="classArr"
         :titleButton="titleButton"
         :titleModal="titleModal"
-        :modalId="modalId"
-        :clientContacts="clientContacts"
+        :modalType="modalType"
       />
 
     </div>
@@ -27,10 +26,9 @@
           'btn-reset',
           'btn-secondarys'
         ],
-        modalId: 'modalNewClient',
+        modalType: 'modalNewClient',
         titleButton: 'Добавить клиента',
         titleModal: 'Новый клиент',
-        clientContacts: [{ type: 'phone', value: null }],
       }
     },
   }

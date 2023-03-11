@@ -25,23 +25,30 @@ export default createStore({
     },
     clientContacts: [],
 
-    modalNewClient: null,
-    modalClientInfo: null,
+    modalClient: null,
+    title: null,
+    modalType: null,
+    clientId: null,
   },
   getters: {},
   mutations: {
-    setModalNewClient(state, modal) {
-      state.modalNewClient = modal;
+    setModalClientParams(state, [title, modalType, clientId]) {
+      state.title = title;
+      state.modalType = modalType;
+      state.clientId = clientId;
     },
-    setModalClientInfo(state, modal) {
-      state.modalClientInfo = modal;
+    setModalClient(state, modal) {
+      state.modalClient = modal;
     },
 
     addEmptyContact(state) {
       state.clientContacts.push({ type: 'phone', value: null });
     },
     setClientContacts(state, contacts) {
-      state.clientContacts = contacts.slice(0, contacts.length);
+      state.clientContacts.splice(0, state.clientContacts.length)
+      if(contacts) {
+        state.clientContacts = contacts.slice(0, contacts.length);
+      }
     },
 
     sortClients(state, [keySort, isReverse]) {

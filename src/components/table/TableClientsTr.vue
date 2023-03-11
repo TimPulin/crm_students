@@ -28,7 +28,7 @@
           :classArr="classArr"
           :titleButton="titleButton"
           :titleModal="titleModal"
-          :modalId="modalId"
+          :modalType="modalType"
           :clientContacts="client.contacts"
           :client-id="client.id"
         />
@@ -59,7 +59,7 @@
           'btn-manage-contact',
           'btn-manage-contact--change',
         ],
-        modalId: 'modalClientInfo',
+        modalType: 'modalClientInfo',
         titleButton: 'Изменить',
         titleModal: 'Изменить данные',
       }

@@ -10,11 +10,11 @@
     </select>
 
     <input class="modal-contact__input-info form-control" type="text" placeholder="Введите данные контакта"
-      v-model="contact.value" @change="setIsShow()"
+      v-model="contact.value"
     >
 
     <button class="btn-reset modal-contact__btn-del" data-bs-toggle="tooltip" title="Удалить контакт"
-      v-if="isShow"
+      v-if="isShow(contact.value)"
     >
       <IconCross/>
 
@@ -33,14 +33,17 @@
     },
     data() {
       return {
-        isShow: false,
+
       }
     },
     methods: {
-      setIsShow() {
-        this.isShow = true;
+      isShow(value) {
+        if (value) {
+          return true;
+        } else {
+          return false;
+        }
       },
-    },
-
+    }, // methods
   }
 </script>

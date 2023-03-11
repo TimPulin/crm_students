@@ -4,42 +4,37 @@
     {{ titleButton }}
   </button>
 
-    <Teleport to="body">
-      <ModalClient
-      :title="titleModal"
-      :modal-id="modalId"
-      :client-id="clientId"
-      />
-    </Teleport>
-
-
 </template>
 
 <script>
   import { openModalClient } from '@/helpers/modalClientFunctions';
-  import ModalClient from '@/components/modals/ModalClient.vue';
-  import { mapMutations } from 'vuex';
+    import { mapMutations } from 'vuex';
 
   export default {
     props: {
       classArr: Array,
       titleButton: String,
       titleModal: String,
-      modalId: String,
-      clientContacts: Object,
+      modalType: String,
+      clientContacts: {
+        type: Object,
+        default: null,
+      },
       clientId: {
         type: [String, Number],
         default: null,
       },
     },
-    components: { ModalClient },
+    // components: { ModalClient },
     methods: {
       ...mapMutations({
         setClientContacts: 'setClientContacts',
+        setModalParams: 'setModalClientParams',
       }),
       openModal() {
         this.setClientContacts(this.clientContacts);
-        openModalClient(this.modalId);
+        this.setModalParams([this.titleModal, this.modalType, this.clientId])
+        openModalClient('modalClient');
       },
     },
   }
