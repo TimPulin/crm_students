@@ -1,30 +1,35 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+
+  <SiteHeader/>
+
+  <main>
+    <div class="container">
+      <h1 class="title title__h1">Клиенты</h1>
+
+      <TableClients/>
+
+      <div class="main__bottom">
+
+      </div>
+    </div> <!-- container -->
+  </main>
+
+  <SiteFooter/>
+
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+  import SiteHeader from '@/components/site/SiteHeader.vue';
+  import TableClients from  '@/components/table/TableClients.vue';
+  import SiteFooter from './components/site/SiteFooter.vue';
+  import "bootstrap/dist/css/bootstrap.min.css";
+  import "bootstrap/dist/js/bootstrap.min.js";
 
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+  export default {
+    components: {
+      SiteHeader,
+      TableClients,
+      SiteFooter,
+    },
+  };
+</script>

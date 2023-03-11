@@ -1,4 +1,4 @@
-# crm_students
+# crm_studenst
 
 ## Project setup
 ```
