@@ -2,7 +2,6 @@
 import { createStore } from "vuex";
 import axios from 'axios';
 import API_BASE_URL from '@/config';
-// import clients from "@/data/clients";
 import clientEmpty from "@/helpers/templateEmptyClient";
 
 const axiosInstans = axios.create({
@@ -20,6 +19,8 @@ export default createStore({
     title: null,
     modalType: null,
     clientId: null,
+
+    messagesErrors: [],
 
     clientsLoading: false,
     clientsLoadingFailed: false,
@@ -58,9 +59,20 @@ export default createStore({
       state.clientCurrent.contacts[index].value = value;
     },
 
+    setMessagesErrors(state, messages) {
+      state.messagesErrors = messages;
+    },
+
 
     addContactEmpty(state) {
       state.clientCurrent.contacts.push({ type: 'phone', value: null });
+    },
+
+    resetClientEmpty() {
+      clientEmpty.lastName = '';
+      clientEmpty.name = '';
+      clientEmpty.surname = '';
+      clientEmpty.contacts.splice(0, clientEmpty.contacts.length);
     },
 
     sortClients(state, [keySort, isReverse]) {
@@ -77,13 +89,13 @@ export default createStore({
   }, // mutations
 
   actions: {
-    getClientCurrent(context) {
-      if(context.state.modalType === 'modalNewClient') {
-        context.commit('setClientCurrent', clientEmpty);
-      } else {
-        console.log();
-      }
-    },
+    // getClientCurrent(context) {
+    //   if(context.state.modalType === 'modalNewClient') {
+    //     context.commit('setClientCurrent', clientEmpty);
+    //   } else {
+    //     console.log();
+    //   }
+    // },
 
     loadClients(context) {
       return axiosInstans
@@ -93,10 +105,18 @@ export default createStore({
         })
     },
 
-    addClientNew(context) {
+    loadClientCurrent(context, clientId) {
       return axiosInstans
-        .post(
-          '/api/clients',
+        .get(`/api/clients/${clientId}`)
+        .then((response) => {
+          context.commit('setClientCurrent', response.data);
+        })
+    },
+
+    updateClientCurrent(context, clientId) {
+      return axiosInstans
+        .patch(
+          `/api/clients/${clientId}`,
           context.state.clientCurrent
         )
         .then(() => {
@@ -104,14 +124,22 @@ export default createStore({
         })
     },
 
-    loadClientCurrent(context, clientId) {
+    addClientNew(context) {
       return axiosInstans
-        .get(`/api/clients/${clientId}`)
+        .post(
+          '/api/clients',
+          context.state.clientCurrent
+        )
         .then((response) => {
-          context.commit('setClientCurrent', response.data)
+          context.commit('resetClientEmpty');
+          this.dispatch('loadClients');
+          return response;
         })
-    }
-
+        .catch((response) => {
+          context.commit('setMessagesErrors', response.response.data.errors)
+          return Promise.reject(response)
+        })
+    },
   }, // actions
   modules: {},
 });

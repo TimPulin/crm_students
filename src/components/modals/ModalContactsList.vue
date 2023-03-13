@@ -39,14 +39,6 @@
     components: {
       IconCross,
     },
-    data() {
-      return {
-
-      }
-    },
-    computed: {
-
-    },
     methods: {
       updateContactType(index, e) {
         this.$store.commit('setClientCurrentContactType', [index, e.target.value])

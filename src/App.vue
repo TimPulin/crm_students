@@ -4,7 +4,7 @@
 
   <SiteHeader/>
 
-  <main>
+  <main class="main">
     <div class="container">
       <h1 class="title title__h1">Клиенты</h1>
 

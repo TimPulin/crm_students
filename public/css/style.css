@@ -138,6 +138,11 @@ body .btn-reset:active {
   min-width: 581px;
 }
 
+/* main */
+.main {
+  margin-bottom: 20px;
+}
+
 .main__bottom {
   text-align: center;
 }
@@ -228,7 +233,12 @@ body .btn-reset:active {
   background-image: url("../img/icon-contact-else.svg");
 }
 
-/* modal */
+/* footer */
+.footer {
+  margin-bottom: 40px;
+}
+
+/* =================== modal ====================== */
 .modal .modal-header {
   border-bottom: none;
 }
@@ -351,6 +361,16 @@ body .btn-reset:active {
   display: flex;
   justify-content: center;
 }
+
+.modal__btn-wrap:not(:last-child) {
+  margin-bottom: 15px;
+}
+
+.messages-wrap__message {
+  margin: 0;
+  color: var(--color-red);
+}
+
 
 .form-fieldset--contacts .btn-manage-contact {
   padding: 0;

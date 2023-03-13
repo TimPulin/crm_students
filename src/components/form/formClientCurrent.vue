@@ -1,47 +1,59 @@
 <template>
   <form class="modal__form" action="POST" @submit.prevent="submitForm">
-            <fieldset class="form-fieldset form-fieldset--fio">
+    <fieldset class="form-fieldset form-fieldset--fio">
 
 
-              <label class="form-label">
-                {{ 'Фамилия*' }}
-                <input class="form-control" type="text" :value="client.lastName" @keyup="updateLastname">
-              </label>
+      <label class="form-label">
+        {{ 'Фамилия*' }}
+        <input class="form-control" type="text" :value="client.lastName" @keyup="updateLastname">
+      </label>
 
-              <label class="form-label">
-                {{ 'Имя*' }}
-                <input class="form-control" type="text" :value="client.name" @keyup="updateName">
-              </label>
+      <label class="form-label">
+        {{ 'Имя*' }}
+        <input class="form-control" type="text" :value="client.name" @keyup="updateName">
+      </label>
 
-              <label class="form-label">
-                {{ 'Отчество' }}
-                <input class="form-control" type="text" :value="client.surname" @keyup="updateSurname">
-              </label>
+      <label class="form-label">
+        {{ 'Отчество' }}
+        <input class="form-control" type="text" :value="client.surname" @keyup="updateSurname">
+      </label>
 
-            </fieldset> <!-- modal__fieldset--fio -->
+    </fieldset> <!-- modal__fieldset--fio -->
 
-            <fieldset class="form-fieldset form-fieldset--contacts">
+    <fieldset class="form-fieldset form-fieldset--contacts">
 
-              <ModalContactsList
-                v-for="(contact, index) in client.contacts"
-                :key="index"
-                :contact="contact"
-                :index="index"
-              />
+      <ModalContactsList
+        v-for="(contact, index) in client.contacts"
+        :key="index"
+        :contact="contact"
+        :index="index"
+      />
 
-              <div class="modal__btn-wrap">
-                <ButtonAddNewContact @click.prevent="addContactEmpty"/>
-              </div>
-            </fieldset> <!-- modal__fieldset--contacts -->
+      <div class="modal__btn-wrap">
+        <ButtonAddNewContact
+          @click.prevent="addContactEmpty"
+          v-show="isShowBtnAddContact(client.contacts)"
+        />
+      </div>
+
+      <div class="messages-wrap">
+        <p class="messages-wrap__message"
+          v-for="(message, index) in messagesErrors"
+          :key="index"
+        >
+          {{ message.message }}
+        </p>
+      </div>
+    </fieldset> <!-- modal__fieldset--contacts -->
 
 
-            <fieldset class="form-fieldset form-fieldset--control-btns">
-              <button class="btn-reset btn-primarys">Сохранить</button>
-              <button v-if="isShow()" class="btn-reset modal__btn-del">Удалить клиента</button>
-              <button v-else class="btn-reset modal__btn-del">Отмена</button>
-            </fieldset>
+    <fieldset class="form-fieldset form-fieldset--control-btns">
+      <button class="btn-reset btn-primarys">Сохранить</button>
+      <button v-if="isShowBtnDel()" class="btn-reset modal__btn-del">Удалить клиента</button>
+      <button v-else class="btn-reset modal__btn-del">Отмена</button>
+    </fieldset>
 
-          </form>
+  </form>
 </template>
 
 <script>
@@ -59,8 +71,8 @@
     computed: {
       ...mapState({
         modalType: 'modalType',
-
         client: 'clientCurrent',
+        messagesErrors: 'messagesErrors',
       }),
     }, // computed
     methods: {
@@ -76,15 +88,33 @@
       updateSurname(e) {
         this.$store.commit('setClientCurrentSurname', e.target.value)
       },
+
       submitForm() {
-        this.$store.dispatch('addClientNew')
-          .then(() => {
-            closeModalClient('modalClient');
-        })
+        if (this.client.id) {
+          this.$store.dispatch('updateClientCurrent', this.client.id)
+            .then(() => {
+              closeModalClient('modalClient');
+            })
+        } else {
+          this.$store.dispatch('addClientNew')
+            .then(() => {
+              closeModalClient('modalClient');
+            })
+            .catch(() => {
+              console.log(this.messagesErrors);
+            })
+        }
       },
 
-      isShow() {
+      isShowBtnDel() {
         return this.modalType === 'modalClientInfo';
+      },
+      isShowBtnAddContact(contacts) {
+        if(contacts) {
+          return contacts.length < 10;
+        } else {
+          return true;
+        }
       },
     }, // methods
   }
