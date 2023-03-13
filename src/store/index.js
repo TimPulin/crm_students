@@ -1,36 +1,32 @@
 
 import { createStore } from "vuex";
-import clients from "@/data/clients";
+import axios from 'axios';
+import API_BASE_URL from '@/config';
+// import clients from "@/data/clients";
+import clientEmpty from "@/helpers/templateEmptyClient";
+
+const axiosInstans = axios.create({
+  baseURL: API_BASE_URL,
+})
 
 export default createStore({
   state: {
-    clients,
-    clientInfo: {
-      id: '2340',
-      createdAt: '2021-08-03T13:05:29.554Z',
-      updatedAt: '2021-09-03T13:07:09.554Z',
-      name: 'Анатолий',
-      surname: 'Сергевич',
-      lastName: 'Багратион',
-      contacts: [
-        {
-          type: 'phone',
-          value: '+71234567890'
-        },
-        {
-          type: 'vk',
-          value: 'https://vk.com/id752623386'
-        }
-      ],
-    },
-    clientContacts: [],
+    testName: 'test',
+    clients: [],
+
+    clientCurrent: {},
 
     modalClient: null,
     title: null,
     modalType: null,
     clientId: null,
+
+    clientsLoading: false,
+    clientsLoadingFailed: false,
   },
+
   getters: {},
+
   mutations: {
     setModalClientParams(state, [title, modalType, clientId]) {
       state.title = title;
@@ -41,26 +37,80 @@ export default createStore({
       state.modalClient = modal;
     },
 
-    addEmptyContact(state) {
-      state.clientContacts.push({ type: 'phone', value: null });
+    setClientCurrent(state, client) {
+      state.clientCurrent = client;
     },
-    setClientContacts(state, contacts) {
-      state.clientContacts.splice(0, state.clientContacts.length)
-      if(contacts) {
-        state.clientContacts = contacts.slice(0, contacts.length);
-      }
+
+    setClientCurrentLastname(state, lastName) {
+      state.clientCurrent.lastName = lastName;
+    },
+    setClientCurrentName(state, name) {
+      state.clientCurrent.name = name;
+    },
+    setClientCurrentSurname(state, surname) {
+      state.clientCurrent.surname = surname;
+    },
+
+    setClientCurrentContactType(state, [index, type]) {
+      state.clientCurrent.contacts[index].type = type;
+    },
+    setClientCurrentContactValue(state, [index, value]) {
+      state.clientCurrent.contacts[index].value = value;
+    },
+
+
+    addContactEmpty(state) {
+      state.clientCurrent.contacts.push({ type: 'phone', value: null });
     },
 
     sortClients(state, [keySort, isReverse]) {
-
       if(isReverse) {
         state.clients.sort((a, b) => a[keySort] - b[keySort]).reverse()
       } else {
         state.clients.sort((a, b) => a[keySort] - b[keySort])
       }
     },
+
+    updateClients(state, clients) {
+      state.clients = clients;
+    },
   }, // mutations
+
   actions: {
+    getClientCurrent(context) {
+      if(context.state.modalType === 'modalNewClient') {
+        context.commit('setClientCurrent', clientEmpty);
+      } else {
+        console.log();
+      }
+    },
+
+    loadClients(context) {
+      return axiosInstans
+      .get('/api/clients')
+      .then((response) => {
+          context.commit('updateClients', response.data);
+        })
+    },
+
+    addClientNew(context) {
+      return axiosInstans
+        .post(
+          '/api/clients',
+          context.state.clientCurrent
+        )
+        .then(() => {
+          this.dispatch('loadClients');
+        })
+    },
+
+    loadClientCurrent(context, clientId) {
+      return axiosInstans
+        .get(`/api/clients/${clientId}`)
+        .then((response) => {
+          context.commit('setClientCurrent', response.data)
+        })
+    }
 
   }, // actions
   modules: {},

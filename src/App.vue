@@ -27,13 +27,22 @@
   import "bootstrap/dist/css/bootstrap.min.css";
   import "bootstrap/dist/js/bootstrap.min.js";
   import ModalClient from './components/modals/ModalClient.vue';
+  import { mapActions } from 'vuex';
 
   export default {
     components: {
-    SiteHeader,
-    TableClients,
-    SiteFooter,
-    ModalClient,
-},
+      SiteHeader,
+      TableClients,
+      SiteFooter,
+      ModalClient,
+    },
+    methods: {
+      ...mapActions({
+        loadClients: 'loadClients',
+      })
+    },
+    created() {
+      this.loadClients();
+    },
   };
 </script>

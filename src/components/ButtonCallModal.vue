@@ -8,7 +8,8 @@
 
 <script>
   import { openModalClient } from '@/helpers/modalClientFunctions';
-    import { mapMutations } from 'vuex';
+  import clientEmpty from "@/helpers/templateEmptyClient";
+  import { mapMutations, mapActions } from 'vuex';
 
   export default {
     props: {
@@ -25,16 +26,25 @@
         default: null,
       },
     },
-    // components: { ModalClient },
     methods: {
       ...mapMutations({
-        setClientContacts: 'setClientContacts',
         setModalParams: 'setModalClientParams',
       }),
+      ...mapActions({
+        getClientCurrent: 'getClientCurrent',
+      }),
       openModal() {
-        this.setClientContacts(this.clientContacts);
-        this.setModalParams([this.titleModal, this.modalType, this.clientId])
-        openModalClient('modalClient');
+        this.setModalParams([this.titleModal, this.modalType, this.clientId]);
+
+        if (this.clientId) {
+          this.$store.dispatch('loadClientCurrent', this.clientId)
+            .then(() => {
+              openModalClient('modalClient');
+            })
+        } else {
+          this.$store.commit('setClientCurrent', clientEmpty);
+          openModalClient('modalClient');
+        }
       },
     },
   }

@@ -1,5 +1,5 @@
 <template>
-  <button class="btn-reset btn-manage-contact" @click.prevent="addEmptyContact">
+  <button class="btn-reset btn-manage-contact">
     <IconPlus/>
     Добавить контакт
   </button>
@@ -7,16 +7,10 @@
 
 <script>
   import IconPlus from './icons/IconPlus.vue';
-  import { mapMutations } from 'vuex';
 
   export default {
     components: {
       IconPlus,
-    },
-    methods: {
-      ...mapMutations({
-        addEmptyContact: 'addEmptyContact',
-      }),
     },
   }
 </script>

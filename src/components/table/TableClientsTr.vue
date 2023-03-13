@@ -68,9 +68,6 @@
       concatinateFio(client) {
         return `${client.lastName} ${client.name} ${client.surname}`
       },
-      setClientId(clientId) {
-        this.clientId = clientId;
-      },
     }, // methods
   };
 </script>

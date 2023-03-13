@@ -11,47 +11,9 @@
         </div>
 
         <div class="modal-body">
-          <form class="modal__form" action="POST">
-            <fieldset class="form-fieldset form-fieldset--fio">
 
-              <!-- <BaseInput
-                :title="'Фамилия*'"
-                v-model:incomingValue="lastName"
-              /> -->
+          <formClientCurrent/>
 
-              <label class="form-label" for="control-1">
-
-                <input class="form-control" type="text" id="control-1">
-              </label>
-
-              <label class="form-label" for="control-2">
-                Имя*
-                <input class="form-control" type="text" id="control-2">
-              </label>
-
-              <label class="form-label" for="control-3">
-                Отчество
-                <input class="form-control" type="text" id="control-3">
-              </label>
-            </fieldset> <!-- modal__fieldset--fio -->
-
-            <fieldset class="form-fieldset form-fieldset--contacts">
-
-              <ModalContactsList :contacts="clientContacts"/>
-
-              <div class="modal__btn-wrap">
-                <ButtonAddNewContact/>
-              </div>
-            </fieldset> <!-- modal__fieldset--contacts -->
-
-
-            <fieldset class="form-fieldset form-fieldset--control-btns">
-              <button class="btn-reset btn-primarys">Сохранить</button>
-              <button v-if="isShow()" class="btn-reset modal__btn-del">Удалить клиента</button>
-              <button v-else class="btn-reset modal__btn-del">Отмена</button>
-            </fieldset>
-
-          </form>
         </div>
       </div>
     </div>
@@ -60,47 +22,27 @@
 
 <script>
   import store from '@/store';
+  import formClientCurrent from '@/components/form/formClientCurrent.vue';
   import { Modal } from 'bootstrap/dist/js/bootstrap.esm.min';
-  import ModalContactsList from '@/components/modals/ModalContactsList.vue';
-  import ButtonAddNewContact from '@/components/ButtonAddNewContact.vue';
-  // import BaseInput from '@/components/base/BaseInput.vue';
-  import { mapState, mapMutations } from 'vuex';
+  import { mapState } from 'vuex';
 
   export default {
     components: {
-      ModalContactsList,
-      ButtonAddNewContact,
-      // BaseInput,
-    },
-    data() {
-      return {
-        // lastName: this.incomingLastName,
-        // surname: this.incomingSurname,
-        // name: this.incomingName,
-      }
+      formClientCurrent,
     },
     computed: {
       ...mapState({
-        // incomingLastName: 'clientInfo.lastName',
-        // incomingSurname: 'clientInfo.surname',
-        // incomingName: 'clientInfo.name',
-        clientContacts: 'clientContacts',
-
-        // new for modal
         title: 'title',
         modalType: 'modalType',
         clientId: 'clientId',
 
       }),
-    },
+    }, // computed
     methods: {
-      ...mapMutations({
-        setClientContacts: 'setClientContacts',
-      }),
       isShow() {
         return this.modalType === 'modalClientInfo';
       },
-    },
+    }, // methods
     mounted() {
       this.$nextTick(function() {
         store.commit(
