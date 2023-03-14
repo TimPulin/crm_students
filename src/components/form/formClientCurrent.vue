@@ -49,7 +49,13 @@
 
     <fieldset class="form-fieldset form-fieldset--control-btns">
       <button class="btn-reset btn-primarys">Сохранить</button>
-      <button v-if="isShowBtnDel()" class="btn-reset modal__btn-del">Удалить клиента</button>
+
+      <ButtonDeleteClient
+        v-if="isShowBtnDel()"
+        :class-arr="['modal__btn-del']"
+        :title="'Удалить клиента'"
+        :client-id="client.id"
+      />
       <button v-else class="btn-reset modal__btn-del">Отмена</button>
     </fieldset>
 
@@ -60,6 +66,7 @@
 
   import ModalContactsList from '@/components/modals/ModalContactsList.vue';
   import ButtonAddNewContact from '@/components/ButtonAddNewContact.vue';
+  import ButtonDeleteClient from '@/components/ButtonDeleteClient.vue';
   import { closeModalClient } from '@/helpers/modalClientFunctions';
   import { mapState, mapMutations } from 'vuex';
 
@@ -67,6 +74,7 @@
     components: {
       ModalContactsList,
       ButtonAddNewContact,
+      ButtonDeleteClient,
     },
     computed: {
       ...mapState({

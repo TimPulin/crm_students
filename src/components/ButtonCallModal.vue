@@ -1,6 +1,6 @@
 <template>
 
-  <button :class="classArr" @click.prevent="openModal">
+  <button class="btn-reset" :class="classArr" @click.prevent="openModal">
     {{ titleButton }}
   </button>
 

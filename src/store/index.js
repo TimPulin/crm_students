@@ -89,14 +89,6 @@ export default createStore({
   }, // mutations
 
   actions: {
-    // getClientCurrent(context) {
-    //   if(context.state.modalType === 'modalNewClient') {
-    //     context.commit('setClientCurrent', clientEmpty);
-    //   } else {
-    //     console.log();
-    //   }
-    // },
-
     loadClients(context) {
       return axiosInstans
       .get('/api/clients')
@@ -138,6 +130,35 @@ export default createStore({
         .catch((response) => {
           context.commit('setMessagesErrors', response.response.data.errors)
           return Promise.reject(response)
+        })
+    },
+
+    deleteClient(context, clientId) {
+      return axiosInstans
+        .delete(`/api/clients/${clientId}`)
+        .then((response) => {
+          this.dispatch('loadClients');
+          console.log('then');
+          return response;
+        })
+        .catch((response) => {
+          console.log(response);
+          return Promise.reject(response);
+        })
+    },
+
+    searchClients(context, searchString) {
+      return axiosInstans
+        .get(
+          '/api/clients',
+          {
+            params: {
+              search: searchString,
+            },
+          },
+        )
+        .then((response) => {
+          context.commit('updateClients', response.data);
         })
     },
   }, // actions
