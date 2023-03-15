@@ -1,8 +1,9 @@
 
-import { createStore } from "vuex";
+import { createStore } from 'vuex';
 import axios from 'axios';
 import API_BASE_URL from '@/config';
-import clientEmpty from "@/helpers/templateEmptyClient";
+import clientEmpty from '@/helpers/templateEmptyClient';
+import adapterClientsFromServerToApp from '@/helpers/adapterClientsFromServerToApp';
 
 const axiosInstans = axios.create({
   baseURL: API_BASE_URL,
@@ -10,7 +11,6 @@ const axiosInstans = axios.create({
 
 export default createStore({
   state: {
-    testName: 'test',
     clients: [],
 
     clientCurrent: {},
@@ -24,11 +24,17 @@ export default createStore({
 
     clientsLoading: false,
     clientsLoadingFailed: false,
+
+    modalMessage: null,
   },
 
   getters: {},
 
   mutations: {
+    setModalMessage(state, modal) {
+      console.log('norm');
+      state.modalMessage = modal;
+    },
     setModalClientParams(state, [title, modalType, clientId]) {
       state.title = title;
       state.modalType = modalType;
@@ -77,14 +83,14 @@ export default createStore({
 
     sortClients(state, [keySort, isReverse]) {
       if(isReverse) {
-        state.clients.sort((a, b) => a[keySort] - b[keySort]).reverse()
+        state.clients.sort((a, b) => a[keySort].localeCompare(b[keySort])).reverse()
       } else {
-        state.clients.sort((a, b) => a[keySort] - b[keySort])
+        state.clients.sort((a, b) => a[keySort].localeCompare(b[keySort]))
       }
     },
 
     updateClients(state, clients) {
-      state.clients = clients;
+      state.clients = adapterClientsFromServerToApp(clients);
     },
   }, // mutations
 

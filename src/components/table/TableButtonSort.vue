@@ -1,7 +1,9 @@
 <template>
+
   <button class="btn-reset btn-sort"
-    :class="{'btn-sort--limit': classLimitIsActive}"
-    @click=" test">
+    :class="classObj"
+    @click="sendId(), sort()"
+  >
     {{ title }}
     <IconArrow :class-obj="'btn-sort__icon'"/>
     <slot></slot>
@@ -20,21 +22,36 @@
         default: false,
       },
       keySort: String,
+      buttonId: Number,
+      activeButtonId: Number,
     },
+    emits: ['send-id'],
     components: { IconArrow },
     data() {
       return {
         reverse: false,
       }
     },
+    computed: {
+      classObj() {
+        return {
+          'btn-sort--limit': this.classLimitIsActive,
+          'btn-sort--active': this.buttonId === this.activeButtonId,
+          'btn-sort--reverse': this.reverse,
+        }
+      },
+    }, // computed
     methods: {
       ...mapMutations({
         sortClients: 'sortClients',
       }),
       isReverse() {
-        this.reverse ? this.reverse = false : this.reverse = true;
+          this.reverse ? this.reverse = false : this.reverse = true;
+        },
+      sendId() {
+        this.$emit('send-id', this.buttonId)
       },
-      test() {
+      sort() {
         this.isReverse();
         this.sortClients([this.keySort, this.reverse])
       },

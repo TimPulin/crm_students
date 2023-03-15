@@ -116,6 +116,21 @@ body .btn-reset:active {
   fill: var(--color-additional);
 }
 
+.btn-sort--active,
+.btn-sort--active .btn-sort__letters,
+.btn-sort:hover .btn-sort__letters {
+  color: var(--color-primary);
+}
+
+.btn-sort--active .btn-sort__icon,
+.btn-sort:hover .btn-sort__icon {
+  fill: var(--color-primary)
+}
+
+.btn-sort--reverse .btn-sort__icon {
+  transform: rotate(180deg) translateY(2px);
+}
+
 /* header */
 .header {
   margin-bottom: 40px;
@@ -421,4 +436,9 @@ body .btn-reset:active {
 .modal__btn-del:hover {
   color: var(--color-red);
   border-color: var(--color-red);
+}
+
+.container--footer {
+  display: flex;
+  justify-content: center;
 }

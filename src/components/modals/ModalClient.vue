@@ -4,8 +4,11 @@
       <div class="modal-content modal-custom">
         <div class="modal-header">
           <div class="title-wrap">
+
             <h2 class="title title__h2">{{ title }}</h2>
+
             <span class="title__additional-info faded" v-if="isShow()"> ID: {{ clientId }}</span>
+
           </div>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -17,7 +20,7 @@
         </div>
       </div>
     </div>
-</div>
+  </div>
 </template>
 
 <script>

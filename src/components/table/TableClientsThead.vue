@@ -3,6 +3,9 @@
     <tr>
       <th class="table__th" scope="col">
         <TableButtonSort
+          @send-id="setActiveButtonId"
+          :buttonId="1"
+          :activeButtonId="activeButtonId"
           :title="'ID'"
           :keySort="'id'"
         />
@@ -10,6 +13,9 @@
 
       <th class="table__th" scope="col">
         <TableButtonSort
+          @send-id="setActiveButtonId"
+          :buttonId="2"
+          :activeButtonId="activeButtonId"
           :title="'Фамилия Имя Отчество'"
           :keySort="'fio'"
         >
@@ -19,14 +25,21 @@
 
       <th class="table__th" scope="col">
         <TableButtonSort
+          @send-id="setActiveButtonId"
+          :buttonId="3"
+          :activeButtonId="activeButtonId"
           :title="'Дата и время создания'"
           :classLimitIsActive="true"
           :keySort="'createdAt'"
         />
+          <!-- :keySort="'dateCreated'" -->
       </th>
 
       <th class="table__th" scope="col">
         <TableButtonSort
+          @send-id="setActiveButtonId"
+          :buttonId="4"
+          :activeButtonId="activeButtonId"
           :title="'Последние изменения'"
           :classLimitIsActive="true"
           :keySort="'updatedAt'"
@@ -50,10 +63,16 @@
     components: {
       TableButtonSort,
     },
-    computed: {
-
+    data() {
+      return {
+        activeButtonId: 1,
+      }
+    }, // data
+    methods: {
+      setActiveButtonId(id) {
+        this.activeButtonId = id;
+      }
     },
-
-};
+  }
 
 </script>

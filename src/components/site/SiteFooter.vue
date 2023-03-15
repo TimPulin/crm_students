@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <div class="container">
+    <div class="container container--footer">
 
       <ButtonCallModal
         :classArr="classArr"

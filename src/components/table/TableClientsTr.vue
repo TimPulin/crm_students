@@ -8,10 +8,10 @@
         {{ concatinateFio(client) }}
       </td>
       <td class="table__td">
-        <BaseDateBox :date="client.createdAt"/>
+        <BaseDateBox :date="client.dateCreated"/>
       </td>
       <td class="table__td">
-        <BaseDateBox :date="client.updatedAt"/>
+        <BaseDateBox :date="client.dateUpdated"/>
       </td>
       <td class="table__td table__td--contacts">
         <div class="icon-contact-wrap">

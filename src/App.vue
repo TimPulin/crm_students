@@ -1,6 +1,7 @@
 <template>
 
   <ModalClient/>
+  <ModalMessage/>
 
   <SiteHeader/>
 
@@ -27,15 +28,17 @@
   import "bootstrap/dist/css/bootstrap.min.css";
   import "bootstrap/dist/js/bootstrap.min.js";
   import ModalClient from './components/modals/ModalClient.vue';
+  import ModalMessage from './components/modals/ModalMessage.vue';
   import { mapActions } from 'vuex';
 
   export default {
     components: {
-      SiteHeader,
-      TableClients,
-      SiteFooter,
-      ModalClient,
-    },
+    SiteHeader,
+    TableClients,
+    SiteFooter,
+    ModalClient,
+    ModalMessage,
+},
     methods: {
       ...mapActions({
         loadClients: 'loadClients',

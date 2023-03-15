@@ -6,6 +6,7 @@
 </template>
 
 <script>
+  import { openModalClient } from '@/helpers/modalClientFunctions';
   export default {
     props: [
       'clientId',
@@ -14,6 +15,7 @@
     ],
     methods: {
       deleteStudent() {
+        openModalClient('modalMessage');
         const isDelete = confirm('Точно удалить?');
 
         if (isDelete) {

@@ -12,12 +12,12 @@
     props: ['date'],
     methods: {
       formatFullDate() {
-        const date = new Date(this.date);
+        const date = this.date;
         const computedDate = `${this.formatDate(date.getDate())}.${this.formatDate(date.getMonth())}.${date.getFullYear()} `;
         return computedDate;
       },
       formatTime() {
-        const date = new Date(this.date);
+        const date = this.date;
         const computedTime = `${this.formatDate(date.getHours())}.${this.formatDate(date.getMinutes())}`
         return computedTime;
       },
